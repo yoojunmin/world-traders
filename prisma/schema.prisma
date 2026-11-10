@@ -1,0 +1,157 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        String   @id @default(cuid())
+  name      String
+  createdAt DateTime @default(now())
+  members   RoomMember[]
+}
+
+model GameRoom {
+  id          String   @id @default(cuid())
+  code        String   @unique
+  hostId      String
+  status      String   @default("LOBBY")
+  isPublic    Boolean  @default(false)
+  settings    Json
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  members     RoomMember[]
+  games       Game[]
+}
+
+model RoomMember {
+  id        String   @id @default(cuid())
+  roomId    String
+  userId    String
+  isReady   Boolean  @default(false)
+  joinedAt  DateTime @default(now())
+  room      GameRoom @relation(fields: [roomId], references: [id], onDelete: Cascade)
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  @@unique([roomId, userId])
+}
+
+model Game {
+  id          String   @id @default(cuid())
+  roomId      String
+  status      String   @default("ACTIVE")
+  round       Int      @default(1)
+  currentTurn Int      @default(0)
+  state       Json
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  room        GameRoom @relation(fields: [roomId], references: [id])
+  players     PlayerState[]
+  turns       Turn[]
+  logs        GameLog[]
+}
+
+model PlayerState {
+  id         String   @id @default(cuid())
+  gameId     String
+  userId     String
+  position   Int      @default(0)
+  balance    Int      @default(1200)
+  status     String   @default("ACTIVE")
+  token      String
+  game       Game     @relation(fields: [gameId], references: [id], onDelete: Cascade)
+  ownerships PropertyOwnership[]
+  @@unique([gameId, userId])
+}
+
+model BoardSpace {
+  id         String   @id
+  name       String
+  kind       String
+  groupKey   String?
+  price      Int      @default(0)
+  baseRent   Int      @default(0)
+  buildCost  Int      @default(0)
+  config     Json
+  ownerships PropertyOwnership[]
+}
+
+model PropertyOwnership {
+  id        String @id @default(cuid())
+  gameId    String
+  playerId  String
+  spaceId   String
+  player    PlayerState @relation(fields: [playerId], references: [id], onDelete: Cascade)
+  space     BoardSpace @relation(fields: [spaceId], references: [id])
+  development Development?
+  @@unique([gameId, spaceId])
+}
+
+model Development {
+  id           String @id @default(cuid())
+  ownershipId  String @unique
+  level        Int @default(0)
+  ownership    PropertyOwnership @relation(fields: [ownershipId], references: [id], onDelete: Cascade)
+}
+
+model EventCard {
+  id          String @id
+  title       String
+  description String
+  effect      Json
+}
+
+model Turn {
+  id        String @id @default(cuid())
+  gameId    String
+  playerId  String
+  number    Int
+  dice      Json?
+  actions   Json
+  startedAt DateTime @default(now())
+  endedAt   DateTime?
+  game      Game @relation(fields: [gameId], references: [id], onDelete: Cascade)
+}
+
+model GameLog {
+  id        String @id @default(cuid())
+  gameId    String
+  type      String
+  message   String
+  data      Json?
+  createdAt DateTime @default(now())
+  game      Game @relation(fields: [gameId], references: [id], onDelete: Cascade)
+}
+
+model TradeOffer {
+  id        String @id @default(cuid())
+  gameId    String
+  fromId    String
+  toId      String
+  offer     Json
+  status    String @default("PENDING")
+  createdAt DateTime @default(now())
+  expiresAt DateTime
+}
+
+model Auction {
+  id        String @id @default(cuid())
+  gameId    String
+  spaceId   String
+  status    String @default("OPEN")
+  highBid   Int @default(0)
+  highBidderId String?
+  endsAt    DateTime
+  bids      Json
+}
+
+model ReconnectSession {
+  id        String @id @default(cuid())
+  userId    String
+  roomId    String
+  tokenHash String @unique
+  expiresAt DateTime
+  createdAt DateTime @default(now())
+}

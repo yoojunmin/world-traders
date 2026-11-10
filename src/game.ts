@@ -1,0 +1,43 @@
+export type SpaceKind = 'start' | 'property' | 'transit' | 'utility' | 'event' | 'tax' | 'rest' | 'detention';
+export type Space = { id:string; name:string; kind:SpaceKind; group?:string; price?:number; rent?:number; build?:number; icon:string; tint:string; short:string; };
+export const board:Space[] = [
+  {id:'launch',name:'순환 터미널',kind:'start',icon:'↻',tint:'#c5e3d3',short:'출발'},
+  {id:'moss',name:'이끼 정원',kind:'property',group:'이끼 군도',price:100,rent:12,build:60,icon:'♧',tint:'#b8cfad',short:'이끼'},
+  {id:'event1',name:'시장 파동',kind:'event',icon:'✳',tint:'#e7d9bf',short:'사건'},
+  {id:'cove',name:'유리 만',kind:'property',group:'이끼 군도',price:120,rent:14,build:60,icon:'⌁',tint:'#b8cfad',short:'유리 만'},
+  {id:'tariff',name:'항로 분담금',kind:'tax',icon:'◒',tint:'#e3c1ae',short:'분담금'},
+  {id:'northpier',name:'북쪽 부두',kind:'transit',price:180,rent:30,icon:'⚓',tint:'#d9c29f',short:'부두'},
+  {id:'flint',name:'부싯돌 초원',kind:'property',group:'구름 초원',price:140,rent:16,build:80,icon:'✺',tint:'#e3d5a5',short:'부싯돌'},
+  {id:'event2',name:'기류 변화',kind:'event',icon:'✳',tint:'#e7d9bf',short:'사건'},
+  {id:'cloud',name:'구름 우물',kind:'property',group:'구름 초원',price:160,rent:19,build:80,icon:'☁',tint:'#e3d5a5',short:'구름 우물'},
+  {id:'grid',name:'마이크로그리드',kind:'utility',price:150,rent:25,icon:'ϟ',tint:'#dfc4b2',short:'에너지'},
+  {id:'harbor',name:'바람 항구',kind:'property',group:'청람 해안',price:180,rent:22,build:100,icon:'⌁',tint:'#a9c9d3',short:'바람 항구'},
+  {id:'quiet1',name:'느린 하루',kind:'rest',icon:'☼',tint:'#c5d4bc',short:'휴식'},
+  {id:'reef',name:'산호 전망대',kind:'property',group:'청람 해안',price:200,rent:25,build:100,icon:'❋',tint:'#a9c9d3',short:'산호'},
+  {id:'event3',name:'공동 연구',kind:'event',icon:'✳',tint:'#e7d9bf',short:'사건'},
+  {id:'skyrail',name:'구름 철도',kind:'transit',price:180,rent:30,icon:'⌁',tint:'#d9c29f',short:'철도'},
+  {id:'lumen',name:'루멘 시장',kind:'property',group:'루멘 공방',price:220,rent:28,build:120,icon:'✦',tint:'#d3b9d2',short:'루멘'},
+  {id:'comms',name:'대륙 연결망',kind:'utility',price:150,rent:25,icon:'⌘',tint:'#dfc4b2',short:'통신'},
+  {id:'event4',name:'교역 신호',kind:'event',icon:'✳',tint:'#e7d9bf',short:'사건'},
+  {id:'ember',name:'잔광 공방',kind:'property',group:'루멘 공방',price:240,rent:30,build:120,icon:'✧',tint:'#d3b9d2',short:'잔광'},
+  {id:'dues',name:'정비 기금',kind:'tax',icon:'◒',tint:'#e3c1ae',short:'정비 기금'},
+  {id:'southpier',name:'남쪽 항구',kind:'transit',price:180,rent:30,icon:'⚓',tint:'#d9c29f',short:'항구'},
+  {id:'morrow',name:'새벽 온실',kind:'property',group:'새벽 정원',price:260,rent:34,build:140,icon:'❀',tint:'#bbd2bd',short:'온실'},
+  {id:'event5',name:'순풍 소식',kind:'event',icon:'✳',tint:'#e7d9bf',short:'사건'},
+  {id:'dew',name:'이슬 보관소',kind:'property',group:'새벽 정원',price:280,rent:36,build:140,icon:'❋',tint:'#bbd2bd',short:'이슬'},
+  {id:'detention',name:'궤도 검문소',kind:'detention',icon:'⌑',tint:'#d6c2ba',short:'검문소'},
+  {id:'aurora',name:'오로라 광장',kind:'property',group:'오로라 권역',price:300,rent:40,build:160,icon:'✧',tint:'#adbed5',short:'오로라'},
+  {id:'event6',name:'공급 재배치',kind:'event',icon:'✳',tint:'#e7d9bf',short:'사건'},
+  {id:'prism',name:'프리즘 고원',kind:'property',group:'오로라 권역',price:320,rent:42,build:160,icon:'◇',tint:'#adbed5',short:'프리즘'},
+  {id:'air',name:'상공 항로',kind:'transit',price:180,rent:30,icon:'✈',tint:'#d9c29f',short:'항공'},
+  {id:'event7',name:'장터의 소문',kind:'event',icon:'✳',tint:'#e7d9bf',short:'사건'},
+  {id:'horizon',name:'먼빛 관측소',kind:'property',group:'먼빛 항성대',price:360,rent:52,build:180,icon:'☾',tint:'#b4bdd3',short:'관측소'},
+  {id:'quiet2',name:'전망대 산책',kind:'rest',icon:'☼',tint:'#c5d4bc',short:'휴식'},
+  {id:'orbit',name:'궤도 정원',kind:'property',group:'먼빛 항성대',price:400,rent:60,build:180,icon:'✺',tint:'#b4bdd3',short:'궤도 정원'},
+  {id:'toll',name:'궤도 유지비',kind:'tax',icon:'◒',tint:'#e3c1ae',short:'유지비'},
+  {id:'freight',name:'성간 화물선',kind:'transit',price:180,rent:30,icon:'◉',tint:'#d9c29f',short:'화물선'},
+  {id:'event8',name:'발견의 밤',kind:'event',icon:'✳',tint:'#e7d9bf',short:'사건'},
+];
+export type Player={id:string;name:string;color:string;icon:string;money:number;position:number;ready:boolean;connected?:boolean;properties:string[];};
+export type Log={id:string;text:string;time:string;kind?:string;};
+export type GameState={code:string;phase:'lobby'|'playing'|'ended';hostId:string;players:Player[];board:Space[];owner:Record<string,string>;levels:Record<string,number>;current:number;turn:number;seconds:number;dice:number[]|null;canBuy:string|null;logs:Log[];roundLimit:number;round:number;maxPlayers:number;isPublic:boolean;auction?:{space:string;highBid:number;bidder:string|null;endsAt:number}|null;};
